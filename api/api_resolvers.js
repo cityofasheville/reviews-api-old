@@ -1,25 +1,23 @@
-const sampleData = [
-  {
-    title: 'Harry Potter and the Chamber of Secrets',
-    author: 'J.K. Rowling',
-    secret: 'Hagrid'
-  },
-  {
-    title: 'Jurassic Park',
-    author: 'Michael Crichton',
-    secret: 'raptor'
-  },
-];
+const { updateReview } = require('./resolvers/review_mutations');
+const { employee, employees } = require('./resolvers/employee_queries');
+const { review, reviews, questions, responses } = require('./resolvers/review_queries');
 
 const resolvers = {
+  Mutation: {
+    updateReview,
+  },
   Query: {
-    books: (parent, args, context) => sampleData.map(itm => {
-      return {
-        title: itm.title,
-        author: itm.author,
-        secret: itm.secret,
-      }
-    }),
+    employee,
+    review,
+  },
+  Employee: {
+    employees,
+    reviews,
+  },
+  Review: {
+    questions,
+    responses,
   },
 };
+
 module.exports = resolvers;

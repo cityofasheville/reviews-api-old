@@ -1,6 +1,7 @@
 const getDbConnection = require('./db');
+const baseUser = require('./base_user');
 
-const getEmployeeInfo = (employeeId, employeeEmail, cache, baseUser) => {
+const getEmployeeInfo = (employeeId, employeeEmail, cache) => {
   let user = baseUser;
   const conn = getDbConnection('mds');
   let employeeIdLookup = Promise.resolve(employeeId);
