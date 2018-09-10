@@ -25,7 +25,7 @@ const employee = (obj, args, context) => {
   throw new Error('In employee query - employee_id not set');
 }
 
-const employees = (obj, args, context) => {
+const subordinates = (obj, args, context) => {
   const id = obj.id;
   return isOperationAllowed(id, context)
   .then(isAllowed => {
@@ -38,5 +38,5 @@ const employees = (obj, args, context) => {
 
 module.exports = {
   employee,
-  employees,
+  employees: subordinates,
 };
