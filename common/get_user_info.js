@@ -18,8 +18,7 @@ const getNonCityUser = (isLoggedIn, req, cache) => {
 
 const getUserInfo = (isLoggedIn, enableEmployeeLogins, req, cache) => {
   const isGoogle = (req.session.loginProvider === 'Google');
-  const override = false;
-  if (override || (isLoggedIn && enableEmployeeLogins && isGoogle)) {
+  if (isLoggedIn && enableEmployeeLogins && isGoogle) {
     let user = {};
     return cache.get(req.session.id)
     .then(cacheData => {
@@ -29,7 +28,6 @@ const getUserInfo = (isLoggedIn, enableEmployeeLogins, req, cache) => {
       if (user.id === undefined) {
         const conn = getDbConnection('mds');
         let query = `select emp_id from amd.ad_info where email_city = '${req.session.email}'`;
-        console.log(query);
         return conn.query(query)
         .then(res => {
           // We could check that it's ashevillenc.gov first, actually.

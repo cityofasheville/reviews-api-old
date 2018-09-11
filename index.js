@@ -61,8 +61,7 @@ app.use(function (req, res, next) {
     .then(isLoggedIn => {
       return getUserInfo(isLoggedIn, apiConfig.enableEmployeeLogins, req, cache);
     })
-    .then((uinfo) => {
-      // console.log(uinfo);
+    .then(uinfo => {
       req.session.employee_id = uinfo.id;
       next();
     });  
