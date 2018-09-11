@@ -2,8 +2,7 @@ const getDbConnection = require('../../common/db');
 
 const isOperationAllowed = (targetId, context) => {
   const conn = getDbConnection('mds');
-  const myId = context.session.user.id;
-
+  const myId = context.session.employee_id;
   if (myId === undefined) return Promise.resolve(false);
   if (context.session.superuser || myId === targetId) {
     return Promise.resolve(true);

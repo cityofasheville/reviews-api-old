@@ -18,7 +18,8 @@ const getNonCityUser = (isLoggedIn, req, cache) => {
 
 const getUserInfo = (isLoggedIn, enableEmployeeLogins, req, cache) => {
   const isGoogle = (req.session.loginProvider === 'Google');
-  if (isLoggedIn && enableEmployeeLogins && isGoogle) {
+  const override = false;
+  if (override || (isLoggedIn && enableEmployeeLogins && isGoogle)) {
     let user = {};
     return cache.get(req.session.id)
     .then(cacheData => {
@@ -28,14 +29,15 @@ const getUserInfo = (isLoggedIn, enableEmployeeLogins, req, cache) => {
       if (user.id === undefined) {
         const conn = getDbConnection('mds');
         let query = `select emp_id from amd.ad_info where email_city = '${req.session.email}'`;
+        console.log(query);
         return conn.query(query)
         .then(res => {
           // We could check that it's ashevillenc.gov first, actually.
           if (res.rows.length === 0) return getNonCityUser(isLoggedIn, req, cache);
-          return getEmployeeInfo(res.rows[0].emp_id, req.session.email, cache, baseUser)
+          return getEmployeeInfo([res.rows[0].emp_id], cache)
           .then(u => {
-            cache.store(req.session.id, Object.assign({}, cacheData, { user: u })); // Should verify success, but skip for now.
-            return Promise.resolve(u);
+            cache.store(req.session.id, Object.assign({}, cacheData, { user: u[0] })); // Should verify success, but skip for now.
+            return Promise.resolve(u[0]);
           });
         });
       }
