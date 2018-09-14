@@ -1,4 +1,5 @@
 const apiConfigs = require('../api/db_configs');
+
 const defaultConfigs = {
   mds: {
     db_type: 'pg',
@@ -7,13 +8,13 @@ const defaultConfigs = {
     password: process.env.mds_password,
     database: process.env.mds_database,
     port: 5432,
-    ssl: false,    
-  }
+    ssl: false,
+  },
 };
 
 /*
  * Sample MSSQL configuration:
- * 
+ *
  * const msconfig = {
  *    user: process.env.dbuser,
  *    password: process.env.dbpassword,
@@ -28,4 +29,3 @@ const defaultConfigs = {
  */
 
 module.exports = Object.assign({}, defaultConfigs, apiConfigs);
-

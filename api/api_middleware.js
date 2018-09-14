@@ -1,7 +1,4 @@
-const parseurl = require('parseurl');
-const getDbConnection = require('../common/db');
-const cache = require('coa-web-cache');
-const logger = require('../common/logger');
+
 
 const middlewares = [
   function (req, res, next) { // Get superuser status

@@ -4,7 +4,7 @@ const session = require('express-session');
 const cors = require('cors');
 const logger = require('./common/logger');
 
-require('dotenv').config();
+require('dotenv').config()
 const apiConfig = require('./api/config');
 const getDbConnection = require('./common/db');
 
@@ -28,7 +28,7 @@ if (cacheMethod === 'memory') {
 }
 
 // Initialize session management
-app.use(session({
+app.use( session({
   name: process.env.sessionName,
   secret: process.env.sessionSecret, 
   resave: false,
@@ -54,18 +54,16 @@ if (apiConfig.enableEmployeeLogins) {
 }
 
 // Check whether the user is logged in
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
   cache.get(req.session.id)
-  .then(sessionId => {
-    checkLogin(req, sessionId, cache)
-    .then(isLoggedIn => {
-      return getUserInfo(isLoggedIn, apiConfig.enableEmployeeLogins, req, cache);
+    .then((sessionId) => {
+      checkLogin(req, sessionId, cache)
+        .then(isLoggedIn => getUserInfo(isLoggedIn, apiConfig.enableEmployeeLogins, req, cache))
+        .then((uinfo) => {
+          req.session.employee_id = uinfo.id;
+          next();
+        });  
     })
-    .then(uinfo => {
-      req.session.employee_id = uinfo.id;
-      next();
-    });  
-  }) 
 });
 
 // Add in any middleware defined by the API

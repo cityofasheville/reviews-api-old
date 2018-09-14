@@ -15,4 +15,3 @@ const baseUser = {
 };
 
 module.exports = baseUser;
-

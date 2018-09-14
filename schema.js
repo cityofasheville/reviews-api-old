@@ -1,3 +1,6 @@
+const loginSchema = require('coa-web-login');
+const apiSchema = require('./api');
+
 /*
  * The test endpoint just a placeholder since the base schema
  * needs to have a Mutation type that can be extended.
@@ -32,8 +35,8 @@ const baseSchema = `
 
 const schemas = [
   baseSchema,
-  require('./api').schema,
-  require('coa-web-login').graphql.schema
+  apiSchema.schema,
+  loginSchema.graphql.schema,
 ];
 
 module.exports = schemas.reduce((accum, cur) => accum.concat(cur), '');

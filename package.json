@@ -20,6 +20,7 @@
     "connect-redis": "^3.3.3",
     "cors": "^2.8.4",
     "dotenv": "^6.0.0",
+    "express": "^4.16.3",
     "express-session": "^1.15.6",
     "graphql": "^0.13.2",
     "lodash": "^4.17.10",
@@ -29,8 +30,19 @@
   },
   "peerDependencies": {},
   "devDependencies": {
+    "eslint": "5.3.0",
+    "eslint-config-airbnb": "17.1.0",
+    "eslint-plugin-import": "2.14.0",
+    "eslint-plugin-jsx-a11y": "6.1.1",
+    "eslint-plugin-react": "7.11.0",
     "jest": "^23.5.0",
     "jest-cli": "^23.5.0",
     "nodemon": "^1.18.3"
+  },
+  "eslintConfig": {
+    "extends": "airbnb",
+    "rules": {
+      "linebreak-style": null
+    }
   }
 }

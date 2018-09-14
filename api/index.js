@@ -1,6 +1,10 @@
+const schema = require('./api_schema');
+const resolvers = require('./api_resolvers');
+const middlewares = require('./api_middleware');
+
 module.exports = {
-  schema: require('./api_schema'),
-  resolvers: require('./api_resolvers'),
-  middlewares: require('./api_middleware'),
+  schema,
+  resolvers,
+  middlewares,
 };
 
