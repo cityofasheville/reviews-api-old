@@ -63,10 +63,16 @@ app.use((req, res, next) => {
   cache.get(req.session.id)
     .then((sessionId) => {
       checkLogin(req, sessionId, cache)
-        .then(isLoggedIn => getUserInfo(isLoggedIn, apiConfig.enableEmployeeLogins, req, cache))
+        .then(isLoggedIn => getUserInfo(isLoggedIn, apiConfig, req, cache))
         .then((uinfo) => {
           req.session.employee_id = uinfo.id;
-          next();
+          return next();
+        })
+        .catch((err) => {
+          const error = new Error(err.toString().substring(6));
+          error.httpStatusCode = 403;
+          error.stack = null;
+          return next(error);
         });
     });
 });

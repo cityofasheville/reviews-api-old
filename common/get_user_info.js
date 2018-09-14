@@ -23,9 +23,15 @@ const getNonCityUser = (isLoggedIn, req, cache) => {
   return Promise.resolve(user);
 };
 
-const getUserInfo = (isLoggedIn, enableEmployeeLogins, req, cache) => {
+const getUserInfo = (isLoggedIn, config, req, cache) => {
   const isGoogle = (req.session.loginProvider === 'Google');
-  if (isLoggedIn && enableEmployeeLogins && isGoogle) {
+  if (isLoggedIn && config.onlyEmployeeLogins) {
+    const email = req.session.email.toLowerCase();
+    if (!isGoogle || !email.endsWith('ashevillenc.gov')) {
+      throw new Error('Only City of Asheville employees may log in.');
+    }
+  }
+  if (isLoggedIn && config.enableEmployeeLogins && isGoogle) {
     let user = {};
     return cache.get(req.session.id)
       .then((cacheData) => {
