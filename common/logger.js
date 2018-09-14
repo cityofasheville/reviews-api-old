@@ -11,4 +11,3 @@ const loggerName = process.env.loggerName ? process.env.loggerName : 'webapp';
 const logger = new Logger(loggerName, logFile);
 
 module.exports = logger;
-
