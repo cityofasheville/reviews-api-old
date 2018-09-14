@@ -1,16 +1,15 @@
-const { ApolloServer, gql } = require('apollo-server-express');
+const { ApolloServer } = require('apollo-server-express');
 const express = require('express');
 const session = require('express-session');
 const cors = require('cors');
-const logger = require('./common/logger');
+const cache = require('coa-web-cache');
+const { checkLogin } = require('coa-web-login');
+const MemoryStore = require('memorystore')(session);
 
-require('dotenv').config()
+require('dotenv').config();
 const apiConfig = require('./api/config');
 const getDbConnection = require('./common/db');
 
-const MemoryStore = require('memorystore')(session)
-const cache = require('coa-web-cache');
-const { checkLogin } = require('coa-web-login');
 const getUserInfo = require('./common/get_user_info');
 
 const GRAPHQL_PORT = process.env.PORT || 4000;
@@ -21,20 +20,20 @@ let sessionCache = null;
 const cacheMethod = process.env.cache_method || 'memory';
 if (cacheMethod === 'memory') {
   sessionCache = new MemoryStore({
-    checkPeriod: 86400000 // prune expired entries every 24h
+    checkPeriod: 86400000, // prune expired entries every 24h
   });
 } else {
   throw new Error('Redis caching not yet implemented');
 }
 
 // Initialize session management
-app.use( session({
+app.use(session({
   name: process.env.sessionName,
-  secret: process.env.sessionSecret, 
+  secret: process.env.sessionSecret,
   resave: false,
   saveUninitialized: true,
   store: sessionCache,
-  cookie: { 
+  cookie: {
     httpOnly: true,
     secure: 'auto',
     maxAge: 1000 * 60 * 60 * 24 * process.env.maxSessionDays,
@@ -62,25 +61,26 @@ app.use((req, res, next) => {
         .then((uinfo) => {
           req.session.employee_id = uinfo.id;
           next();
-        });  
-    })
+        });
+    });
 });
 
 // Add in any middleware defined by the API
-require('./api').middlewares.forEach(m => { app.use(m); });
+require('./api').middlewares.forEach((m) => { app.use(m); });
 
 // Now configure and apply the GraphQL server
 
-const server = new ApolloServer({ 
-  typeDefs: require('./schema'),
-  resolvers: require('./resolvers'),
-  context: ({ req }) => {
-    return {
-      session: req.session,
-      req: req,
-      cache,
-    };
-  },
+const typeDefs = require('./schema');
+const resolvers = require('./resolvers');
+
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: ({ req }) => ({
+    session: req.session,
+    req,
+    cache,
+  }),
 });
 
 server.applyMiddleware({ app, cors: corsOptions });
