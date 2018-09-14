@@ -42,7 +42,7 @@
   "eslintConfig": {
     "extends": "airbnb",
     "rules": {
-      "linebreak-style": null
+      "linebreak-style": 0
     }
   }
 }
