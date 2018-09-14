@@ -4,7 +4,7 @@ const getDbConnection = require('../../common/db');
 const logger = require('../../common/logger');
 
 const employee = (obj, args, context) => {
-  if (args.hasOwnProperty('id')) {
+  if (Object.prototype.hasOwnProperty.call(args, 'id')) {
     return isOperationAllowed(args.id, context)
       .then((isAllowed) => {
         if (isAllowed) {

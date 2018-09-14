@@ -50,7 +50,7 @@ const createCurrentReview = (emp, context) => {
 };
 
 const review = (obj, args, context) => {
-  if (args.hasOwnProperty('id') && args.id !== -1) {
+  if (Object.prototype.hasOwnProperty.call(args, 'id') && args.id !== -1) {
     return getReview(args.id, context)
       .then((reviewOut) => {
         if (context.employee_id === reviewOut.employee_id) {
@@ -72,7 +72,7 @@ const review = (obj, args, context) => {
   // Get based on the employee ID
   let employeeId = context.session.employee_id;
   let verifyAllowed = Promise.resolve(true);
-  if (args.hasOwnProperty('employee_id')) {
+  if (Object.prototype.hasOwnProperty.call(args, 'employee_id')) {
     if (args.employeeId !== employeeId) {
       employeeId = args.employee_id;
       verifyAllowed = isOperationAllowed(employeeId, context);
