@@ -23,14 +23,12 @@ const isOperationAllowed = (targetId, context) => {
     ) AS A where empid = $2
   `;
   return conn.query(query, [myId, targetId])
-  .then(result => {
-    if (result.rows && result.rows.length > 0 && result.rows[0].allowed) {
-      return Promise.resolve(true);
-    }
-    return Promise.resolve(false);
-  });
+    .then((result) => {
+      if (result.rows && result.rows.length > 0 && result.rows[0].allowed) {
+        return Promise.resolve(true);
+      }
+      return Promise.resolve(false);
+    });
 };
 
 module.exports = isOperationAllowed;
-
-

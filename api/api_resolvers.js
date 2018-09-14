@@ -1,6 +1,11 @@
 const { updateReview } = require('./resolvers/review_mutations');
 const { employee, employees } = require('./resolvers/employee_queries');
-const { review, reviews, questions, responses } = require('./resolvers/review_queries');
+const {
+  review,
+  reviews,
+  questions,
+  responses,
+} = require('./resolvers/review_queries');
 
 const resolvers = {
   Mutation: {

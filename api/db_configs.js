@@ -16,5 +16,5 @@ module.exports = {
     database: process.env.mds_database,
     port: 5432,
     ssl: false,    
-  }
+  },
 };

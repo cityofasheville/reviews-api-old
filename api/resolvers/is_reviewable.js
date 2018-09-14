@@ -1,9 +1,9 @@
 
 
 const isReviewable = (e) => {
-  const val =  (
-    e.active === 'A' && e.position !== null && e.position !== '' &&
-    e.email !== null && e.email !== ''
+  const val = (
+    e.active === 'A' && e.position !== null && e.position !== ''
+    && e.email !== null && e.email !== ''
   );
   return val;
 };
@@ -20,5 +20,5 @@ const notReviewableReason = (e) => {
 
 module.exports = {
   isReviewable,
-  notReviewableReason
+  notReviewableReason,
 };
