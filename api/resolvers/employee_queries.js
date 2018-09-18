@@ -31,6 +31,7 @@ const subordinates = (obj, args, context) => {
         return conn.query(query, [id])
           .then((result) => {
             const subordinateIds = result.rows.map(itm => itm.empid);
+            if (subordinateIds.length === 0) return Promise.resolve([]);
             return getAugmentedEmployeeInfo(subordinateIds, context, true);
           })
           .catch((err) => {
