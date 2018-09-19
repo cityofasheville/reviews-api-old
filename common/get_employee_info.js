@@ -13,8 +13,8 @@ const getEmployeeInfo = (employeeIds, cache, email = null) => {
   let employeeIdsLookup = Promise.resolve(employeeIds);
   if (employeeIds === null || employeeIds.length === 0) {
     // We could check that it's ashevillenc.gov first, actually.
-    const query = `select emp_id from amd.ad_info where email_city = '${email}'`;
-    employeeIdsLookup = conn.query(query)
+    const query = 'select emp_id from amd.ad_info where email_city = $1';
+    employeeIdsLookup = conn.query(query, [email])
       .then((res) => {
         if (res && res.rows && res.rows.length > 0) {
           return Promise.resolve([res.rows[0].empid]);
